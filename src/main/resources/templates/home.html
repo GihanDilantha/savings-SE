@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Savings</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <style>
+        .pre-scrollable {
+            height: 900px;
+            overflow-y: scroll;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form1{
+            text-align: center;
+        }
+        .addBtn{
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Savings Investment Record</h1>
+    <form class="form1" method="get" th:action="@{/}">
+        <label for="keyword">Key Word</label>
+        <input type="text" name="keyword" id="keyword">
+        <button type="submit" class="btn-primary">Search</button>
+        <button type="button" class="btn-primary" onclick="window.location.href='@{index}';">See All</button>
+    </form>
+    <div class="container mt-2 pre-scrollable">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Customer number</th>
+                    <th>Cust Name</th>
+                    <th>Deposit</th>
+                    <th>Number of years</th>
+                    <th>Savings Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${SavingsList}">
+                    <td th:text="${p.getCustNo()}"></td>
+                    <td th:text="${p.getCustName()}"></td>
+                    <td th:text="${p.getCDep()}"></td>
+                    <td th:text="${p.getNYears()}"></td>
+                    <td th:text="${p.getSavType()}"></td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{editentry(id=${p.id})}">Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete the record?')" th:href="@{delete(id=${p.id})}">Delete</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{investment(id=${p.id})}">Projected Investment</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="addBtn text-center mt-3">
+        <a class="btn btn-success"  role="button" th:href="@{/newentry}">Add</a>
+    </div>
+
+
+</div>
+</body>
+</html>
